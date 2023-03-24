@@ -1,0 +1,110 @@
+
+server:
+  shutdown: graceful
+  port: 8080
+spring:
+  profiles:
+    active: ${apptech.profile:beta}
+  main:
+    allow-bean-definition-overriding: true
+  devtools:
+    restart:
+      enabled: false
+  codec:
+    max-in-memory-size: 10MB
+#  autoconfigure:
+#    exclude:
+#      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy:
+          - org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate:
+        use_sql_comments: true
+        format_sql: true
+        globally_quoted_identifiers: true
+
+#redis:
+#  host: ${apptech.redis.host:localhost}
+#  port: 16379
+
+r2dbc:
+  datasource:
+      host: localhost
+      port: 5432
+      db: app_tech
+      username: app_tech
+      password: 1234
+  pool:
+    max-idle-time: 1
+    max-create-connection-time: 5
+    max-life: 2
+    initial-size: 20
+    max-size: 100
+    max-acquire-time: 5
+    tls-version: TLSv1.2
+
+
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        r2dbc: debug
+
+springdoc:
+  version: v1
+  api-docs:
+    groups:
+      enabled: true
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    display-request-duration: true
+    groups-order: DESC
+    operations-sorter: method
+    disable-swagger-default-url: true
+  show-actuator: false
+  packages-to-scan: app-tech.domain
+
+#security:
+#  jwt:
+#    token-secret-key: ${app-tech.security.jwt.token-secret-key}
+#    token-expire-length: 86400000
+#    refresh-token-expire-length: 604800000
+#    payload-secret-key: ${app-tech.security.jwt.payload-secret-key}
+#
+#  firebase:
+#    signer-key: ${app-tech.security.firebase.signer-key}
+#    salt-sep: ${app-tech.security.firebase.salt-sep}
+#
+#auth:
+#  filter:
+#    all-access-paths: /api-docs, /swagger-resources, /swagger-ui, /_/health, /api/v2
+#    user-access-paths: /auth/refresh, /auth/logout, /user
+
+app-tech:
+  api:
+    version: v1
+#aws:
+#  s3:
+#    region: ap-northeast-2
+#    bucket: dev
+#    access-key: ${app-tech.aws.s3.object-key}
+#    secret-key: ${app-tech.aws.s3.secret-key}
+#  cf:
+#    key-pair-id: ${app-tech.aws.cf.key.pair.id}
+
+file:
+  temp-path: /tmp/
+
+#mail:
+#  smtp:
+#    host: smtp.gmail.com
+#    user: ${app-tech.mail.smpt.user}
+#    pass: ${app-tech.mail.smtp.pass}
+#    port: ${app-tech.mail.smtp.port}
+
