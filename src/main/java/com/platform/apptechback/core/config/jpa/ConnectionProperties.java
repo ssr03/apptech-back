@@ -1,4 +1,4 @@
-package com.platform.apptechback.core.config.r2dbc;
+package com.platform.apptechback.core.config.jpa;
 
 import lombok.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -6,11 +6,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter
 @Setter
 @NoArgsConstructor
-@ConfigurationProperties(prefix = "r2dbc.datasource")
+@ConfigurationProperties(prefix = "jpa.datasource")
 public class ConnectionProperties {
-    private String host;
-    private Integer port;
-    private String db;
+    private String driverClassName;
+    private String url;
     private String username;
     private String password;
 }

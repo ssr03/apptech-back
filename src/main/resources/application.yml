@@ -12,14 +12,17 @@ spring:
       enabled: false
   codec:
     max-in-memory-size: 10MB
-#  autoconfigure:
-#    exclude:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration
 #      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+
   jpa:
     hibernate:
       naming:
         physical-strategy:
           - org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     properties:
       hibernate:
@@ -27,26 +30,22 @@ spring:
         format_sql: true
         globally_quoted_identifiers: true
 
-#redis:
-#  host: ${apptech.redis.host:localhost}
-#  port: 16379
+redis:
+  host: ${apptech.redis.host:localhost}
+  port: 16379
 
-r2dbc:
+jpa:
   datasource:
-      host: localhost
-      port: 5432
-      db: app_tech
+      driver-class-name: org.postgresql.ds.PGSimpleDataSource
+      url: jdbc:postgresql://localhost:5432/app_tech
       username: app_tech
       password: 1234
   pool:
-    max-idle-time: 1
-    max-create-connection-time: 5
-    max-life: 2
-    initial-size: 20
-    max-size: 100
-    max-acquire-time: 5
-    tls-version: TLSv1.2
-
+    connection-timeout: 30000
+    maximum-pool-size: 20
+    max-lifetime: 1800000
+    minimum-idle: 75
+    idle-timeout: 600000
 
 logging:
   level:

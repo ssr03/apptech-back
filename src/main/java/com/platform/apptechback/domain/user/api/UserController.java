@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,7 +16,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/detail")
-    public ResponseEntity<Mono<UserResponse>> getUserDetail(@RequestParam String username) {
+    public ResponseEntity<UserResponse> getUserDetail(@RequestParam String username) {
         return userService.getUserInfo(username);
     }
 }
