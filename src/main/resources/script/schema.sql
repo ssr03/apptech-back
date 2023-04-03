@@ -1,6 +1,6 @@
 -- DROP TABLE app_user;
 CREATE TABLE "app_user" (
-   id int8 NOT NULL,
+   id bigserial NOT NULL,
    username varchar(50) NULL DEFAULT NULL,
    "password" varchar(100) NULL DEFAULT NULL,
    nickname varchar(50) NULL DEFAULT NULL,
@@ -13,6 +13,19 @@ CREATE TABLE "app_user" (
    CONSTRAINT user_pkey PRIMARY KEY (id)
 );
 
+-- DROP TABLE apptech_user_profit;
+CREATE TABLE "apptech_user_profit" (
+   id bigserial NOT NULL,
+   user_id int8 NOT NULL,
+   app_id int8 NOT NULL,
+   profit_date timestamp NULL,
+   profit int8 DEFAULT 0,
+   profit_image_file varchar(255),
+   admin_status char(2) DEFAULT 'Y',
+   created_at timestamp NOT NULL,
+   updated_at timestamp NULL,
+   PRIMARY KEY (id)
+);
 
 -- DROP TABLE apptech_app;
 CREATE TABLE apptech_app (
