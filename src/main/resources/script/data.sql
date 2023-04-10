@@ -13,4 +13,4 @@ insert into apptech_app values (8, 0, '카카오페이', null, null, null, 'APPR
 insert into apptech_app values (9, 0, '더폴', null, null, null, 'APPROVAL', now(), now());
 insert into apptech_app values (10, 0, '하나머니', null, null, null, 'APPROVAL', now(), now());
 insert into apptech_app values (11, 0, '네이버페이', null, null, null, 'APPROVAL', now(), now());
-insert into apptech_app values (12, 0, '터', null, null, null, 'APPROVAL', now(), now());
+insert into apptech_app values (12, 0, '터칭', null, null, null, 'APPROVAL', now(), now());
