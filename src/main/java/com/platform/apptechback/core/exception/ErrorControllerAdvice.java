@@ -1,5 +1,6 @@
 package com.platform.apptechback.core.exception;
 
+import com.platform.apptechback.domain.common.exception.NotFoundException;
 import com.platform.apptechback.domain.user.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,14 @@ public class ErrorControllerAdvice {
     @ExceptionHandler(UserNotFoundException.class)
     protected ResponseEntity<ExceptionResponse> handleUserNotFoundException(UserNotFoundException e) {
         final ErrorData error = ErrorData.of(ErrorCode.USER_NOT_FOUND.name(), e.getMessage());
+        final ExceptionResponse response = ExceptionResponse.of(HttpStatus.OK, error);
+
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    protected ResponseEntity<ExceptionResponse> handleNotFoundException(NotFoundException e) {
+        final ErrorData error = ErrorData.of(ErrorCode.ENTITY_NOT_FOUND.name(), e.getMessage());
         final ExceptionResponse response = ExceptionResponse.of(HttpStatus.OK, error);
 
         return new ResponseEntity<>(response,HttpStatus.OK);
