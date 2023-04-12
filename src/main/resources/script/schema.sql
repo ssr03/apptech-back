@@ -18,7 +18,7 @@ CREATE TABLE "apptech_user_profit" (
    id bigserial NOT NULL,
    user_id int8 NOT NULL,
    app_id int8 NOT NULL,
-   profit_date timestamp NULL,
+   profit_date date NULL,
    profit int8 DEFAULT 0,
    profit_image_file varchar(255),
    admin_status char(2) DEFAULT 'Y',
