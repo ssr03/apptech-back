@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserProfitService {
     private final UserProfitRepository userProfitRepository;
     private final UserRepository userRepository;
-
     private final AppRepository appRepository;
 
     public ResponseEntity<UserProfit> getUserProfit(Long id){
@@ -45,7 +44,7 @@ public class UserProfitService {
                         .orElseThrow(()->new UserNotFoundException(ErrorCode.ENTITY_NOT_FOUND, "해당 앱은 존재 하지 않습니다."));
 
         UserProfit userProfit = new UserProfit();
-        userProfit.newUserProfit(user, app, userProfitRequest, filePath);
+        userProfit.newUserProfit(user, userProfitRequest, filePath);
 
         UserProfit savedUserProfit = userProfitRepository.save(userProfit);
 
@@ -64,6 +63,7 @@ public class UserProfitService {
 
         userRepository.findById(userProfitRequest.getUserId())
                 .orElseThrow(()->new UserNotFoundException(ErrorCode.ENTITY_NOT_FOUND, "해당 사용자는 존재 하지 않습니다."));
+
 
         userProfit.modifyUserProfit(userProfitRequest, filePath);
 
