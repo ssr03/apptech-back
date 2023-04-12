@@ -85,7 +85,7 @@ CREATE TABLE apptech_profit_quiz_favorite (
      created_at timestamp NOT NULL,
      CONSTRAINT apptech_profit_quiz_favorite_pk PRIMARY KEY (id),
      CONSTRAINT app_user_fk FOREIGN KEY (user_id) REFERENCES app_user(id),
-     CONSTRAINT apptech_profit_quiz_fk FOREIGN KEY (app_profit_quiz_id) REFERENCES apptech_profit_quiz(id);
+     CONSTRAINT apptech_profit_quiz_fk FOREIGN KEY (app_profit_quiz_id) REFERENCES apptech_profit_quiz(id)
 );
 
 
