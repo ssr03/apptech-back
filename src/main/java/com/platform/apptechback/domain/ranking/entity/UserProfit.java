@@ -1,5 +1,6 @@
 package com.platform.apptechback.domain.ranking.entity;
 
+import com.platform.apptechback.domain.app.entity.App;
 import com.platform.apptechback.domain.ranking.dto.UserProfitRequest;
 import com.platform.apptechback.domain.user.entity.User;
 import com.platform.apptechback.domain.ranking.enums.AdminStatus;
@@ -29,9 +30,9 @@ public class UserProfit {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    // 맵핑
-    @Column(name = "app_id")
-    private Long appId;
+    @OneToOne
+    @JoinColumn(name = "app_id", referencedColumnName = "id")
+    private App app;
 
     @Column(name = "profit_date")
     private LocalDate profitDate;
@@ -56,9 +57,9 @@ public class UserProfit {
         this.adminStatus = adminStatus;
     }
 
-    public void newUserProfit(User user, UserProfitRequest userProfitRequest, String profitImagePath){
+    public void newUserProfit(User user, App app, UserProfitRequest userProfitRequest, String profitImagePath){
         this.user = user;
-        this.appId = userProfitRequest.getAppId();
+        this.app = app;
         this.profitDate = LocalDate.parse(userProfitRequest.getProfitDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.profit = userProfitRequest.getProfit();
         this.profitImageFile = profitImagePath;
