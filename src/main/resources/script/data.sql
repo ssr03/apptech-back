@@ -14,3 +14,10 @@ insert into apptech_app values (9, 0, '더폴', null, null, null, 'APPROVAL', no
 insert into apptech_app values (10, 0, '하나머니', null, null, null, 'APPROVAL', now(), now());
 insert into apptech_app values (11, 0, '네이버페이', null, null, null, 'APPROVAL', now(), now());
 insert into apptech_app values (12, 0, '터칭', null, null, null, 'APPROVAL', now(), now());
+
+
+
+
+insert into apptech_review  values(1, 1, 0, 5, 'Good!', now(), now());
+insert into apptech_review  values(2, 1, 0, 4, '포인트 잘 쌓여!', now(), now());
+insert into apptech_review  values(3, 1, 0, 5, 'Good!', now(), now());
