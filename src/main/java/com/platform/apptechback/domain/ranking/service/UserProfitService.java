@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserProfitService {
     private final UserProfitRepository userProfitRepository;
     private final UserRepository userRepository;
-
     private final AppRepository appRepository;
 
     private final FileUtil fileUtil;
