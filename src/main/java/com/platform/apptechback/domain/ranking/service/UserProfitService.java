@@ -1,8 +1,10 @@
 package com.platform.apptechback.domain.ranking.service;
 
 import com.platform.apptechback.core.exception.ErrorCode;
+import com.platform.apptechback.core.util.FileUtil;
 import com.platform.apptechback.domain.app.entity.App;
 import com.platform.apptechback.domain.app.repository.AppRepository;
+import com.platform.apptechback.domain.common.dto.FileDto;
 import com.platform.apptechback.domain.common.exception.NotFoundException;
 import com.platform.apptechback.domain.ranking.dto.UserProfitRequest;
 import com.platform.apptechback.domain.ranking.entity.UserProfit;
@@ -24,6 +26,8 @@ public class UserProfitService {
 
     private final AppRepository appRepository;
 
+    private final FileUtil fileUtil;
+
     public ResponseEntity<UserProfit> getUserProfit(Long id){
         UserProfit userProfit = userProfitRepository.findById(id)
                 .orElseThrow(()->new NotFoundException(ErrorCode.ENTITY_NOT_FOUND, id + "가 존재 하지 않습니다."));
@@ -33,9 +37,7 @@ public class UserProfitService {
     @Transactional
     public ResponseEntity<UserProfit> addUserProfit(UserProfitRequest userProfitRequest){
         // 파일 저장
-
-        // 파일 경로
-        String filePath = ""; // userProfitRequest.getProfitImageFile().filename();
+        FileDto file = fileUtil.uploadFile(userProfitRequest.getProfitImageFile());
 
         User user =
                 userRepository.findById(userProfitRequest.getUserId())
@@ -45,7 +47,7 @@ public class UserProfitService {
                         .orElseThrow(()->new UserNotFoundException(ErrorCode.ENTITY_NOT_FOUND, "해당 앱은 존재 하지 않습니다."));
 
         UserProfit userProfit = new UserProfit();
-        userProfit.newUserProfit(user, app, userProfitRequest, filePath);
+        userProfit.newUserProfit(user, app, userProfitRequest, file.getStoredName());
 
         UserProfit savedUserProfit = userProfitRepository.save(userProfit);
 
@@ -58,14 +60,12 @@ public class UserProfitService {
                 .orElseThrow(()->new NotFoundException(ErrorCode.ENTITY_NOT_FOUND, id + "가 존재 하지 않습니다."));
 
         // 파일 저장
-
-        // 파일 경로
-        String filePath = ""; //userProfitRequest.getProfitImageFile().filename();
+        FileDto file = fileUtil.uploadFile(userProfitRequest.getProfitImageFile());
 
         userRepository.findById(userProfitRequest.getUserId())
                 .orElseThrow(()->new UserNotFoundException(ErrorCode.ENTITY_NOT_FOUND, "해당 사용자는 존재 하지 않습니다."));
 
-        userProfit.modifyUserProfit(userProfitRequest, filePath);
+        userProfit.modifyUserProfit(userProfitRequest, file.getStoredName());
 
         UserProfit savedUserProfit = userProfitRepository.save(userProfit);
         return new ResponseEntity<>(savedUserProfit, HttpStatus.OK);

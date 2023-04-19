@@ -29,6 +29,11 @@ spring:
         use_sql_comments: true
         format_sql: true
         globally_quoted_identifiers: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 1MB
+      max-request-size: 10MB
 
 redis:
   host: ${apptech.redis.host:localhost}
@@ -99,6 +104,7 @@ app-tech:
 
 file:
   temp-path: /tmp/
+  upload-dir: ./uploads
 
 #mail:
 #  smtp:
