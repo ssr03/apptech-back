@@ -11,7 +11,10 @@ public enum ErrorCode {
     INVALID_TYPE_VALUE("Invalid Type Value"),
 
     // User
-    USER_NOT_FOUND("User Not Found");
+    USER_NOT_FOUND("User Not Found"),
+
+    // file
+    FILE_ERROR("File Error");
 
     private final String message;
 
