@@ -42,6 +42,10 @@ CREATE TABLE apptech_app (
     CONSTRAINT app_user_fk FOREIGN KEY (user_id) REFERENCES app_user(id)
 );
 
+create sequence apptech_app_id_seq start with 100;
+alter table apptech_app  alter column id set default nextVal('apptech_app_id_seq');
+
+
 -- DROP TABLE apptech_profit;
 CREATE TABLE apptech_profit (
    id int8 NOT NULL,
@@ -60,6 +64,9 @@ CREATE TABLE apptech_profit (
    CONSTRAINT app_user_fk FOREIGN KEY (user_id) REFERENCES app_user(id),
    CONSTRAINT apptech_app_fk FOREIGN KEY (app_id) REFERENCES apptech_app(id)
 );
+
+create sequence apptech_profit_id_seq start with 1;
+alter table apptech_profit  alter column id set default nextVal('apptech_profit_id_seq');
 
 -- DROP TABLE apptech_profit_quiz;
 CREATE TABLE apptech_profit_quiz (

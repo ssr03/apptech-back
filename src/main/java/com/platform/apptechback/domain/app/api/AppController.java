@@ -1,13 +1,13 @@
 package com.platform.apptechback.domain.app.api;
 
+import com.platform.apptechback.domain.app.dto.AppRequest;
 import com.platform.apptechback.domain.app.dto.AppResponse;
+import com.platform.apptechback.domain.app.entity.App;
 import com.platform.apptechback.domain.app.service.AppService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +22,10 @@ public class AppController {
                                                         @RequestParam int limit,
                                                         @RequestParam int page) {
         return appService.getAppList(orderBy, limit, page);
+    }
+
+    @PostMapping(value ="/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<App> addApp(AppRequest appRequest) {
+        return appService.addApp(appRequest);
     }
 }
