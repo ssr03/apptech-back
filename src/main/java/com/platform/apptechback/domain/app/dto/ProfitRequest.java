@@ -1,19 +1,16 @@
 package com.platform.apptechback.domain.app.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
 
-@Getter
+@Data
 @RequiredArgsConstructor
-@AllArgsConstructor
-public class ProfitResponse {
-    private Long id;
-    private Long appId;
-    private Long userId;
+public class ProfitRequest {
+    private long appId;
+    private long userId;
     private String profitName;
     private String profitDesc;
     private Long orderNo;
