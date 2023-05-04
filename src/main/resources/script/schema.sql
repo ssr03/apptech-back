@@ -123,3 +123,18 @@ CREATE TABLE apptech_review (
    CONSTRAINT app_user_fk FOREIGN KEY (user_id) REFERENCES app_user(id),
    CONSTRAINT apptech_app_fk FOREIGN KEY (app_id) REFERENCES apptech_app(id)
 );
+
+
+-- DROP TABLE apptech_rank;
+CREATE TABLE "apptech_rank" (
+    id bigserial NOT NULL,
+    user_id int8 NOT NULL,
+    app_id int8 NOT NULL,
+    type char(10) NOT NULL DEFAULT 'DAY',
+    ranking_no int8 NOT NULL DEFAULT 0,
+    profit_date date NULL,
+    total_profit int8 DEFAULT 0,
+    created_at timestamp NOT NULL,
+    updated_at timestamp NULL,
+    PRIMARY KEY (id)
+);
