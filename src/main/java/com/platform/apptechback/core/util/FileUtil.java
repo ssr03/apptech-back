@@ -46,37 +46,62 @@ public class FileUtil {
 
     /**
      * 파일업로드
+     * @param prefix root folder
+     * @param file
+     */
+    public FileDto uploadFile(String prefix, MultipartFile file) {
+        // 테스트 코드 만들기
+        if (!prefix.endsWith("/") ) {
+            prefix = prefix + "/";
+        }
+        if (!prefix.startsWith("/")){
+            prefix = "/" + prefix;
+        }
+        Path prefixLocation = Path.of(this.fileStorageLocation.toString() + prefix);
+        try {
+            Files.createDirectories(prefixLocation);
+        } catch (IOException e) {
+            throw new FileException(ErrorCode.FILE_ERROR, prefixLocation + "파일 경로를 생성할 수 없습니다. 다시 시도해 보세요.");
+        }
+        FileDto fileDto = copyFile(prefixLocation,file);
+        fileDto.updateStoreName(prefix);
+        return fileDto;
+    }
+
+
+    /**
+     * 파일업로드
      * @param file
      */
     public FileDto uploadFile(MultipartFile file) {
+        return copyFile(this.fileStorageLocation, file);
+    }
 
-            String uploadFileName = file.getOriginalFilename();
-            //IE has file path
-            uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
-            String fileName = StringUtils.cleanPath(Objects.requireNonNull(uploadFileName));
-            String ext = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
-            Long fileSize = file.getSize();
+    private FileDto copyFile(Path fileLocation, MultipartFile file){
+        String uploadFileName = file.getOriginalFilename();
+        //IE has file path
+        uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(uploadFileName));
+        String ext = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
+        Long fileSize = file.getSize();
 
-            UUID uuid = UUID.randomUUID();
-            String storedName = uuid + ext;
+        UUID uuid = UUID.randomUUID();
+        String storedName = uuid + ext;
 
-            if(fileName.contains("..")) {
-                throw new FileException(ErrorCode.FILE_ERROR,"파일명에 허용되지 않는 문자가 포함되어 있습니다." + fileName);
-            }
+        if(fileName.contains("..")) {
+            throw new FileException(ErrorCode.FILE_ERROR,"파일명에 허용되지 않는 문자가 포함되어 있습니다." + fileName);
+        }
 
-            /*
-             * File IO on Server
-             * */
-            try {
-                Path targetLocation = this.fileStorageLocation.resolve(storedName);
-                Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new FileException(ErrorCode.FILE_ERROR, "파일 " + fileName + "을 저장할 수 없습니다. 다시 시도해 보세요.");
-            }
-
-            FileDto fileDto = new FileDto(fileName, storedName, ext, fileSize);
+        /*
+         * File IO on Server
+         * */
+        Path targetLocation = fileLocation.resolve(storedName);
+        try{
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new FileException(ErrorCode.FILE_ERROR, "파일 " + fileName + "을 저장할 수 없습니다. 다시 시도해 보세요.");
+        }
 
         return new FileDto(fileName, storedName, ext, fileSize);
     }

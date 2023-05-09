@@ -1,6 +1,5 @@
 package com.platform.apptechback.domain.common.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,4 +12,8 @@ public class FileDto {
     String storedName;
     String ext;
     Long fileAmount;
+
+    public void updateStoreName(String prefix) {
+        this.storedName = prefix + this.storedName;
+    }
 }
