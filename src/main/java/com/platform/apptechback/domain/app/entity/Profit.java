@@ -1,9 +1,9 @@
 package com.platform.apptechback.domain.app.entity;
 
-
 import com.platform.apptechback.domain.app.dto.ProfitRequest;
 import com.platform.apptechback.domain.user.entity.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "apptech_profit")
 public class Profit {

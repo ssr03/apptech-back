@@ -15,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class ProfitService {
@@ -23,20 +26,23 @@ public class ProfitService {
     private final ProfitRepository profitRepository;
 
     @Transactional
-    public ResponseEntity<Profit> addProfit(ProfitRequest profitRequest){
+    public ResponseEntity<List<Profit>> addProfit(ProfitRequest[] profitRequestList){
         User user =
-                userRepository.findById(profitRequest.getUserId())
+                userRepository.findById(profitRequestList[0].getUserId())
                         .orElseThrow(()->new UserNotFoundException(ErrorCode.ENTITY_NOT_FOUND, "해당 사용자는 존재 하지 않습니다."));
         App app =
-                appRepository.findById(profitRequest.getAppId())
+                appRepository.findById(profitRequestList[0].getAppId())
                         .orElseThrow(()->new UserNotFoundException(ErrorCode.ENTITY_NOT_FOUND, "해당 앱은 존재 하지 않습니다."));
 
 
-        Profit profit = new Profit();
-        profit.newProfit(user, app, profitRequest);
+        List<Profit> profitList = new ArrayList<>();
+        for(int i=0; i<profitRequestList.length; i++){
+            Profit profit = new Profit();
+            profit.newProfit(user, app, profitRequestList[i]);
+            profitList.add(profit);
+        }
+        List<Profit> savedProfitList = profitRepository.saveAll(profitList);
 
-        Profit savedProfit = profitRepository.save(profit);
-
-        return new ResponseEntity<>(savedProfit, HttpStatus.OK);
+        return new ResponseEntity<>(savedProfitList, HttpStatus.OK);
     }
 }
