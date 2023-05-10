@@ -13,10 +13,14 @@ import com.platform.apptechback.domain.user.entity.User;
 import com.platform.apptechback.domain.user.exception.UserNotFoundException;
 import com.platform.apptechback.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 @RequiredArgsConstructor
 @Service
@@ -26,6 +30,8 @@ public class UserProfitService {
     private final AppRepository appRepository;
 
     private final FileUtil fileUtil;
+
+    public static final String USER_PROFIT_PATH_PREFIX = "PROFIT/";
 
     public ResponseEntity<UserProfit> getUserProfit(Long id){
         UserProfit userProfit = userProfitRepository.findById(id)
@@ -58,8 +64,9 @@ public class UserProfitService {
         UserProfit userProfit = userProfitRepository.findById(id)
                 .orElseThrow(()->new NotFoundException(ErrorCode.ENTITY_NOT_FOUND, id + "가 존재 하지 않습니다."));
 
+        String prefix = USER_PROFIT_PATH_PREFIX + userProfitRequest.getAppId() + "/" + userProfit.getProfitDate().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         // 파일 저장
-        FileDto file = fileUtil.uploadFile(userProfitRequest.getProfitImageFile());
+        FileDto file = fileUtil.uploadFile(prefix, userProfitRequest.getProfitImageFile());
 
         userRepository.findById(userProfitRequest.getUserId())
                 .orElseThrow(()->new UserNotFoundException(ErrorCode.ENTITY_NOT_FOUND, "해당 사용자는 존재 하지 않습니다."));
