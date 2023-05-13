@@ -23,7 +23,7 @@ import java.nio.file.Paths;
 public class ImageUtil {
 
     private final AppRepository appRepository;
-
+    private final Path fileStorageLocation;
     @GetMapping("/logo")
     public ResponseEntity<Resource> getLogoImage(@RequestParam Long appId) {
 
@@ -32,7 +32,7 @@ public class ImageUtil {
 
         String appLogoFile = app.getAppLogoFile();
 
-        String imageRoot = "/Users/keunyoungma/IdeaProjects/apptechback/uploads/" + appLogoFile;
+        String imageRoot = this.fileStorageLocation.toString() + "/appLogo/" + appLogoFile;
 
         Resource resource = new FileSystemResource(imageRoot);
 
