@@ -20,12 +20,18 @@ public class ReviewService {
        List<Review> reviewList = reviewRepository.findTop2ByAppId(appId);
        List<ReviewResponse> reviewResponseList = reviewList.stream()
                .map(m -> new ReviewResponse(m.getId(),
-                       m.getAppId(),
-                       m.getUserId(),
+                       m.getApp(),
+                       m.getUser(),
                        m.getRate(),
                        m.getReview()))
                .collect(Collectors.toList());
 
        return new ResponseEntity<>(reviewResponseList, HttpStatus.OK);
+    }
+
+    public String getAverageByAppId(Long appId){
+        double average = reviewRepository.getAverageByAppId(appId);
+        String averageStr = String.format("%.1f", average);
+        return averageStr;
     }
 }

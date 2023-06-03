@@ -2,10 +2,8 @@ package com.platform.apptechback.domain.app.entity;
 
 
 import com.platform.apptechback.domain.app.dto.ReviewResponse;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.platform.apptechback.domain.user.entity.User;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,12 +15,15 @@ import java.time.LocalDateTime;
 @Table(name = "apptech_review")
 public class Review {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "app_id")
-    private Long appId;
-    @Column(name = "user_id")
-    private Long userId;
+    @OneToOne
+    @JoinColumn(name = "app_id", referencedColumnName = "id")
+    private App app;
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
     @Column(name = "rate")
     private Long rate;
     @Column(name = "review")
@@ -32,7 +33,18 @@ public class Review {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    public Review() {
+
+    }
+
     public ReviewResponse getReviewResponse(){
-        return new ReviewResponse(id, appId, userId, rate, review);
+        return new ReviewResponse(id, app, user, rate, review);
+    }
+
+    public Review(App app, User user, Long rate, String review){
+        this.app = app;
+        this.user = user;
+        this.rate = rate;
+        this.review = review;
     }
 }

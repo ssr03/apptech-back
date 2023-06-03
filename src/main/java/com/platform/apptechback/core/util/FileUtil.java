@@ -58,12 +58,10 @@ public class FileUtil {
             prefix = "/" + prefix;
         }
         Path prefixLocation = Path.of(this.fileStorageLocation.toString() + prefix);
-        if (!Files.exists(prefixLocation)) {
-            try {
-                Files.createDirectories(prefixLocation);
-            } catch (IOException e) {
-                throw new FileException(ErrorCode.FILE_ERROR, prefixLocation + "파일 경로를 생성할 수 없습니다. 다시 시도해 보세요.");
-            }
+        try {
+            Files.createDirectories(prefixLocation);
+        } catch (IOException e) {
+            throw new FileException(ErrorCode.FILE_ERROR, prefixLocation + "파일 경로를 생성할 수 없습니다. 다시 시도해 보세요.");
         }
         FileDto fileDto = copyFile(prefixLocation,file);
         fileDto.updateStoreName(prefix);

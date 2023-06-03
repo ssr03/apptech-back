@@ -19,4 +19,10 @@ public class ProfitController {
     public ResponseEntity<List<Profit>> addProfit(@RequestBody ProfitRequest[] profitRequestList) {
         return profitService.addProfit(profitRequestList);
     }
+
+    @GetMapping(value="/getProfitList")
+    public ResponseEntity<List<Profit>> getProfitList(@RequestParam Long appId){
+        return profitService.getProfitList(appId);
+    }
+
 }

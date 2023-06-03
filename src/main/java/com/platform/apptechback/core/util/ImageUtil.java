@@ -46,7 +46,7 @@ public class ImageUtil {
             filePath = Paths.get(imageRoot);
             header.add("Content-Type", Files.probeContentType(filePath));
         }catch (Exception e){
-            e.printStackTrace();
+            return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
