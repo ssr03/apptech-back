@@ -26,4 +26,9 @@ public class ReviewController {
     public String getAverageByAppId(@RequestParam Long appId){
         return reviewService.getAverageByAppId(appId);
     }
+
+    @GetMapping("/getReviewList")
+    public ResponseEntity<List<ReviewResponse>> getReviewList(@RequestParam Long appId) {
+        return reviewService.getReviewList(appId);
+    }
 }

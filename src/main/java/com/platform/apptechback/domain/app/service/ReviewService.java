@@ -34,4 +34,17 @@ public class ReviewService {
         String averageStr = String.format("%.1f", average);
         return averageStr;
     }
+
+    public ResponseEntity<List<ReviewResponse>> getReviewList(Long appId) {
+        List<Review> reviewList = reviewRepository.findByAppId(appId);
+        List<ReviewResponse> reviewResponseList = reviewList.stream()
+                .map(m -> new ReviewResponse(m.getId(),
+                        m.getApp(),
+                        m.getUser(),
+                        m.getRate(),
+                        m.getReview()))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(reviewResponseList, HttpStatus.OK);
+    }
 }

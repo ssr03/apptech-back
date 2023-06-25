@@ -14,4 +14,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findTop2ByAppId(Long appId);
     @Query(value = "select avg(c.rate) from apptech_review c where c.app_id = :appId", nativeQuery = true)
     double getAverageByAppId(@Param(value ="appId") Long appId);
+
+    List<Review> findByAppId(Long appId);
 }
