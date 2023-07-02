@@ -21,3 +21,14 @@ insert into apptech_app values (12, 0, '터칭', null, null, null, 'APPROVAL', n
 insert into apptech_review  values(1, 1, 0, 5, 'Good!', now(), now());
 insert into apptech_review  values(2, 1, 0, 4, '포인트 잘 쌓여!', now(), now());
 insert into apptech_review  values(3, 1, 0, 5, 'Good!', now(), now());
+
+
+
+
+INSERT INTO public.apptech_profit
+(app_id, user_id, profit_name, profit_desc, order_no, quiz_yn, start_date, end_date, admin_status, created_at, updated_at)
+VALUES(1, 0, '쏠퀴즈', '퀴즈맞추거', 1,true, now(), now(), 'APPROVAL', now(), now());
+
+INSERT INTO public.apptech_profit
+(app_id, user_id, profit_name, profit_desc, order_no, quiz_yn, start_date, end_date, admin_status, created_at, updated_at)
+VALUES(1, 0, '금모으기', '매일 출석하면 금도끼 ', 2,true, now(), now(), 'APPROVAL', now(), now());

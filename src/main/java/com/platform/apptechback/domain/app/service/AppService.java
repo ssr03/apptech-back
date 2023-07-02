@@ -19,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,8 +30,9 @@ public class AppService {
     private final UserRepository userRepository;
     private final AppRepository appRepository;
     private final FileUtil fileUtil;
-    public ResponseEntity<List<AppResponse>> getAppList(String orderBy, int limit, int page) {
+    public ResponseEntity<Page<App>> getAppList(String orderBy, int limit, int page) {
        Page<App> appListPage = appRepository.findAll(PageRequest.of(page, limit, Sort.by(orderBy)));
+       /**
        List<App> appList = appListPage.getContent();
        List<AppResponse> appResponseList = appList.stream()
                .map(m -> new AppResponse(m.getId(),
@@ -40,14 +43,14 @@ public class AppService {
                        m.getAppAndroidLink(),
                        m.getAdminStatus()))
                .collect(Collectors.toList());
-
-       return new ResponseEntity<>(appResponseList, HttpStatus.OK);
+        */
+       return new ResponseEntity<>(appListPage, HttpStatus.OK);
     }
 
     @Transactional
     public ResponseEntity<App> addApp(AppRequest appRequest){
         // 파일 저장
-        FileDto file = fileUtil.uploadFile(appRequest.getAppLogoFile());
+        FileDto file  = fileUtil.uploadFile("/appLogo/", appRequest.getAppLogoFile());
         User user =
                 userRepository.findById(appRequest.getUserId())
                         .orElseThrow(()->new UserNotFoundException(ErrorCode.ENTITY_NOT_FOUND, "해당 사용자는 존재 하지 않습니다."));

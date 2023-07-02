@@ -5,7 +5,6 @@ import com.platform.apptechback.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -14,7 +13,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "apptech_profit")
@@ -50,6 +48,10 @@ public class Profit {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public Profit(){
+
+    }
     public Profit(User user, App app, String profitName, String profitDesc, Long orderNo, boolean quizYn
             , LocalDateTime startDate, LocalDateTime endDate, String adminStatus){
         this.user = user;
