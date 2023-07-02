@@ -111,18 +111,18 @@ CREATE TABLE apptech_profit_quiz_correct (
 
 
 -- DROP TABLE apptech_review;
-CREATE TABLE apptech_review (
-   id int8 NOT NULL,
+CREATE TABLE public.apptech_review (
+   id int8 NOT NULL DEFAULT nextval('apptech_review_seq'::regclass),
    app_id int8 NOT NULL,
    user_id int8 NOT NULL,
    rate int2 NULL,
    review varchar(255) NULL DEFAULT NULL::character varying,
+   use_yn bool NULL,
    created_at timestamp NOT NULL,
    updated_at timestamp NULL,
-   CONSTRAINT apptech_review_pk PRIMARY KEY (id),
-   CONSTRAINT app_user_fk FOREIGN KEY (user_id) REFERENCES app_user(id),
-   CONSTRAINT apptech_app_fk FOREIGN KEY (app_id) REFERENCES apptech_app(id)
+   CONSTRAINT apptech_review_pk PRIMARY KEY (id)
 );
+
 
 
 -- DROP TABLE apptech_rank;

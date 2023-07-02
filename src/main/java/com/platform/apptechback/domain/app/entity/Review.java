@@ -6,6 +6,8 @@ import com.platform.apptechback.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -28,8 +30,12 @@ public class Review {
     private Long rate;
     @Column(name = "review")
     private String review;
+    @Column(name = "use_yn")
+    private boolean useYn;
+    @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
@@ -47,4 +53,5 @@ public class Review {
         this.rate = rate;
         this.review = review;
     }
+
 }
