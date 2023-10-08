@@ -110,18 +110,25 @@ CREATE TABLE apptech_profit_quiz_correct (
 );
 
 
+
+
+
 -- DROP TABLE apptech_review;
 CREATE TABLE public.apptech_review (
-   id int8 NOT NULL DEFAULT nextval('apptech_review_seq'::regclass),
-   app_id int8 NOT NULL,
-   user_id int8 NOT NULL,
-   rate int2 NULL,
-   review varchar(255) NULL DEFAULT NULL::character varying,
-   use_yn bool NULL,
-   created_at timestamp NOT NULL,
-   updated_at timestamp NULL,
-   CONSTRAINT apptech_review_pk PRIMARY KEY (id)
+                                       id int8 NOT NULL,
+                                       app_id int8 NOT NULL,
+                                       user_id int8 NOT NULL,
+                                       rate int2 NULL,
+                                       review varchar(255) NULL DEFAULT NULL::character varying,
+                                       use_yn bool NULL,
+                                       created_at timestamp NOT NULL,
+                                       updated_at timestamp NULL,
+                                       CONSTRAINT apptech_review_pk PRIMARY KEY (id)
 );
+
+create sequence apptech_review_seq start with 1;
+alter table apptech_review  alter column id set default nextVal('apptech_review_seq');
+
 
 
 
