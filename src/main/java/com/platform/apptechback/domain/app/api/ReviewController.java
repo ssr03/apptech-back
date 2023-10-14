@@ -3,11 +3,10 @@ package com.platform.apptechback.domain.app.api;
 import com.platform.apptechback.domain.app.dto.ReviewResponse;
 import com.platform.apptechback.domain.app.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -20,5 +19,11 @@ public class ReviewController {
     @GetMapping("/get2ReviewList")
     public ResponseEntity<List<ReviewResponse>> get2ReviewList(@RequestParam Long appId) {
         return reviewService.get2ReviewList(appId);
+    }
+
+    @GetMapping("/{appId}/rate")
+    public ResponseEntity<Mono<Long>> getAppReview(@PathVariable Long appId){
+        Mono<Long> appReviewRate = reviewService.getAppReview(appId);
+        return new ResponseEntity<>(appReviewRate, HttpStatus.OK);
     }
 }
