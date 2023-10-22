@@ -83,6 +83,8 @@ CREATE TABLE apptech_profit_quiz (
     CONSTRAINT apptech_profit_fk FOREIGN KEY (app_profit_id) REFERENCES apptech_profit(id)
 );
 
+create sequence apptech_profit_quiz_id_seq start with 100;
+alter table apptech_profit_quiz alter column id set default nextVal('apptech_profit_quiz_id_seq');
 
 -- DROP TABLE apptech_profit_quiz_favorite;
 CREATE TABLE apptech_profit_quiz_favorite (

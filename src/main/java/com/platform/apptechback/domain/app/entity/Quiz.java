@@ -1,9 +1,14 @@
 package com.platform.apptechback.domain.app.entity;
 
+import com.platform.apptechback.domain.app.dto.QuizRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,28 +19,40 @@ public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "app_profit_id")
+    private Long appProfitId;
     @Column(name = "user_id")
     private Long userId;
-    @Column(name = "username")
-    private String userName;
+    @CreationTimestamp
+    @Column(name = "quiz_date")
+    private LocalDateTime quizDate;
     @Column(name = "quiz")
     private String quiz;
     @Column(name = "answer")
     private String answer;
-    @Column(name = "yes_cnt")
-    private Long yesCnt;
-    @Column(name = "no_cnt")
-    private Long noCnt;
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public Quiz(){
 
     }
-    public Quiz(Long user, String userName, String quiz, String answer, Long yesCnt, Long noCnt){
+    public Quiz(Long appProfitId, Long userId, LocalDateTime quizDate, String quiz, String answer){
+        this.appProfitId = appProfitId;
         this.userId = userId;
-        this.userName = userName;
+        this.quizDate = quizDate;
         this.quiz = quiz;
         this.answer = answer;
-        this.yesCnt = yesCnt;
-        this.noCnt = noCnt;
+    }
+
+    public void newQuiz(QuizRequest quizRequest){
+        this.appProfitId = quizRequest.getAppProfitId();
+        this.userId = quizRequest.getUserId();
+        this.quizDate = quizRequest.getQuizDate();
+        this.quiz = quizRequest.getQuiz();
+        this.answer = quizRequest.getAnswer();
     }
 }
