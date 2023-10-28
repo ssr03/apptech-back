@@ -100,7 +100,7 @@ CREATE TABLE apptech_profit_quiz_favorite (
 
 -- DROP TABLE apptech_profit_quiz_correct;
 CREATE TABLE apptech_profit_quiz_correct (
-    id int8 NOT NULL,
+    id bigserial NOT NULL,
     app_profit_quiz_id int8 NOT NULL,
     user_id int8 NOT NULL,
     correct_status varchar(10) NULL DEFAULT ''::character varying,
@@ -110,6 +110,9 @@ CREATE TABLE apptech_profit_quiz_correct (
     CONSTRAINT app_user_fk FOREIGN KEY (user_id) REFERENCES app_user(id),
     CONSTRAINT apptech_profit_quiz_fk FOREIGN KEY (app_profit_quiz_id) REFERENCES apptech_profit_quiz(id)
 );
+
+create sequence apptech_profit_quiz_correct_id_seq start with 100;
+alter table apptech_profit_quiz_correct alter column id set default nextVal('apptech_profit_quiz_correct_id_seq');
 
 
 

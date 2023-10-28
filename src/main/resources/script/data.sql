@@ -27,3 +27,15 @@ VALUES(1, 0, '쏠퀴즈', '퀴즈맞추거', 1,true, now(), now(), 'APPROVAL', n
 INSERT INTO public.apptech_profit
 (app_id, user_id, profit_name, profit_desc, order_no, quiz_yn, start_date, end_date, admin_status, created_at, updated_at)
 VALUES(1, 0, '금모으기', '매일 출석하면 금도끼 ', 2,true, now(), now(), 'APPROVAL', now(), now());
+
+
+
+
+INSERT INTO public.apptech_profit
+(id, app_id, user_id, profit_name, profit_desc, order_no, quiz_yn, start_date, end_date, admin_status, created_at, updated_at)
+VALUES(21, 1, 0, '쏠퀴즈', '퀴즈맞추거', 1, true, '2023-05-29 12:36:24.351', '2023-05-29 12:36:24.351', 'APPROVAL', '2023-05-29 12:36:24.351', '2023-05-29 12:36:24.351');
+
+
+INSERT INTO public.apptech_profit_quiz
+(id, app_profit_id, user_id, quiz_date, quiz, answer, created_at, updated_at)
+VALUES(0, 21, 0, now(), '퀴즈1', '답1', '2023-05-29 13:40:16.511', '2023-05-29 13:40:16.511');

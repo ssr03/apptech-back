@@ -41,10 +41,10 @@ redis:
 
 jpa:
   datasource:
-      driver-class-name: org.postgresql.ds.PGSimpleDataSource
-      url: jdbc:postgresql://localhost:5432/app_tech
-      username: app_tech
-      password: 1234
+      driver: org.postgresql.Driver
+      url: jdbc:postgresql://apptech.cy4usxeolxju.ap-northeast-2.rds.amazonaws.com:5432/app_tech
+      username: [id]
+      password: [pw]
   pool:
     connection-timeout: 30000
     maximum-pool-size: 20
