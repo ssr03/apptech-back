@@ -1,6 +1,8 @@
 package com.platform.apptechback.domain.app.api;
 
+import com.platform.apptechback.domain.app.dto.ReviewRequest;
 import com.platform.apptechback.domain.app.dto.ReviewResponse;
+import com.platform.apptechback.domain.app.entity.Review;
 import com.platform.apptechback.domain.app.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,5 +27,11 @@ public class ReviewController {
     public ResponseEntity<Mono<Long>> getAppReview(@PathVariable Long appId){
         Mono<Long> appReviewRate = reviewService.getAppReview(appId);
         return new ResponseEntity<>(appReviewRate, HttpStatus.OK);
+    }
+
+    @PostMapping("/{appId}/rate")
+    public ResponseEntity<Review> saveAppReview(@PathVariable Long appId, @RequestBody ReviewRequest reviewRequest){
+        Review result = reviewService.saveAppReview(appId, reviewRequest);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

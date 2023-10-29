@@ -1,5 +1,6 @@
 package com.platform.apptechback.domain.app.service;
 
+import com.platform.apptechback.domain.app.dto.ReviewRequest;
 import com.platform.apptechback.domain.app.dto.ReviewResponse;
 import com.platform.apptechback.domain.app.entity.Review;
 import com.platform.apptechback.domain.app.repository.ReviewRepository;
@@ -37,10 +38,13 @@ public class ReviewService {
     }
 
     @Transactional
-    public Mono<Boolean> saveAppReview(Long appId){
-        // todo: review 저장
-
+    public Review saveAppReview(Long appId, ReviewRequest reviewRequest){
+        // review 저장
+        Review review = new Review();
+        review.newReview(appId, reviewRequest.getUserId(), reviewRequest.getRate(), reviewRequest.getReview());
+        Review savedReview = reviewRepository.save(review);
         // 레디스 저장
-        return reviewRedisService.saveAppReview(appId);
+        reviewRedisService.saveAppReview(savedReview);
+        return savedReview;
     }
 }
