@@ -83,6 +83,8 @@ CREATE TABLE apptech_profit_quiz (
     CONSTRAINT apptech_profit_fk FOREIGN KEY (app_profit_id) REFERENCES apptech_profit(id)
 );
 
+create sequence apptech_profit_quiz_id_seq start with 100;
+alter table apptech_profit_quiz alter column id set default nextVal('apptech_profit_quiz_id_seq');
 
 -- DROP TABLE apptech_profit_quiz_favorite;
 CREATE TABLE apptech_profit_quiz_favorite (
@@ -98,7 +100,7 @@ CREATE TABLE apptech_profit_quiz_favorite (
 
 -- DROP TABLE apptech_profit_quiz_correct;
 CREATE TABLE apptech_profit_quiz_correct (
-    id int8 NOT NULL,
+    id bigserial NOT NULL,
     app_profit_quiz_id int8 NOT NULL,
     user_id int8 NOT NULL,
     correct_status varchar(10) NULL DEFAULT ''::character varying,
@@ -109,20 +111,30 @@ CREATE TABLE apptech_profit_quiz_correct (
     CONSTRAINT apptech_profit_quiz_fk FOREIGN KEY (app_profit_quiz_id) REFERENCES apptech_profit_quiz(id)
 );
 
+create sequence apptech_profit_quiz_correct_id_seq start with 100;
+alter table apptech_profit_quiz_correct alter column id set default nextVal('apptech_profit_quiz_correct_id_seq');
+
+
+
+
 
 -- DROP TABLE apptech_review;
-CREATE TABLE apptech_review (
-   id int8 NOT NULL,
-   app_id int8 NOT NULL,
-   user_id int8 NOT NULL,
-   rate int2 NULL,
-   review varchar(255) NULL DEFAULT NULL::character varying,
-   created_at timestamp NOT NULL,
-   updated_at timestamp NULL,
-   CONSTRAINT apptech_review_pk PRIMARY KEY (id),
-   CONSTRAINT app_user_fk FOREIGN KEY (user_id) REFERENCES app_user(id),
-   CONSTRAINT apptech_app_fk FOREIGN KEY (app_id) REFERENCES apptech_app(id)
+CREATE TABLE public.apptech_review (
+                                       id int8 NOT NULL,
+                                       app_id int8 NOT NULL,
+                                       user_id int8 NOT NULL,
+                                       rate int2 NULL,
+                                       review varchar(255) NULL DEFAULT NULL::character varying,
+                                       use_yn bool NULL,
+                                       created_at timestamp NOT NULL,
+                                       updated_at timestamp NULL,
+                                       CONSTRAINT apptech_review_pk PRIMARY KEY (id)
 );
+
+create sequence apptech_review_seq start with 1;
+alter table apptech_review  alter column id set default nextVal('apptech_review_seq');
+
+
 
 
 -- DROP TABLE apptech_rank;
