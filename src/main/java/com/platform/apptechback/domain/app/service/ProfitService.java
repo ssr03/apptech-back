@@ -45,4 +45,8 @@ public class ProfitService {
 
         return new ResponseEntity<>(savedProfitList, HttpStatus.OK);
     }
+    public ResponseEntity<List<Profit>> getProfitList(Long appId){
+        List<Profit> profitList = profitRepository.findByAppId(appId);
+        return new ResponseEntity<>(profitList, HttpStatus.OK);
+    }
 }
