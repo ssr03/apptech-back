@@ -8,8 +8,11 @@ import com.platform.apptechback.domain.app.entity.Review;
 import com.platform.apptechback.domain.app.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
+
 
 import java.util.List;
 
@@ -23,6 +26,17 @@ public class ReviewController {
     public ResponseEntity<List<ReviewResponse>> get2ReviewList(@RequestParam Long appId) {
         return reviewService.get2ReviewList(appId);
     }
+
+    @GetMapping("/{appId}/rate")
+    public ResponseEntity<Mono<Long>> getAppReview(@PathVariable Long appId){
+        Mono<Long> appReviewRate = reviewService.getAppReview(appId);
+        return new ResponseEntity<>(appReviewRate, HttpStatus.OK);
+    }
+
+    @PostMapping("/{appId}/rate")
+    public ResponseEntity<Review> saveAppReview(@PathVariable Long appId, @RequestBody ReviewRequest reviewRequest){
+        Review result = reviewService.saveAppReview(appId, reviewRequest);
+        return new ResponseEntity<>(result, HttpStatus.OK);
 
     @GetMapping("/getAverageByAppId")
     public String getAverageByAppId(@RequestParam Long appId){
@@ -42,5 +56,6 @@ public class ReviewController {
     @GetMapping("/getReviewList")
     public ResponseEntity<List<ReviewResponse>> getReviewList(@RequestParam Long appId) {
         return reviewService.getReviewList(appId);
+
     }
 }
