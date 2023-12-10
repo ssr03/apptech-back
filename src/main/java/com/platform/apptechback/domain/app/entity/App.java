@@ -12,6 +12,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -36,6 +38,11 @@ public class App {
     private String appAndroidLink;
     @Column(name = "admin_status")
     private String adminStatus;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "app_id")
+    List<Review> reviews = new ArrayList<>();
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
