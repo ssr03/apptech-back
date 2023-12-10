@@ -25,9 +25,7 @@ public class Review implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "app_id", referencedColumnName = "id")
     private App app;
-//    @OneToOne
-//    @JoinColumn(name = "app_id", referencedColumnName = "id")
-//    private App app;
+
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
