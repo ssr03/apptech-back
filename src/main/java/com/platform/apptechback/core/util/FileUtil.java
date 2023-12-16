@@ -79,6 +79,7 @@ public class FileUtil {
 
     private FileDto copyFile(Path fileLocation, MultipartFile file){
         String uploadFileName = file.getOriginalFilename();
+        System.out.println(uploadFileName);
         //IE has file path
         uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(uploadFileName));
