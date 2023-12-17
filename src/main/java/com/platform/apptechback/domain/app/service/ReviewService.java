@@ -10,7 +10,6 @@ import com.platform.apptechback.domain.app.repository.ReviewRepository;
 import com.platform.apptechback.domain.user.entity.User;
 import com.platform.apptechback.domain.user.exception.UserNotFoundException;
 import com.platform.apptechback.domain.user.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,14 +47,21 @@ public class ReviewService {
     }
 
     @Transactional
-    public Review saveAppReview(Long appId, ReviewRequest reviewRequest){
+    public Review saveAppReview(Long appId, ReviewRequest reviewRequest) {
+        User user =
+                userRepository.findById(reviewRequest.getUserId())
+                        .orElseThrow(()->new UserNotFoundException(ErrorCode.ENTITY_NOT_FOUND, "해당 사용자는 존재 하지 않습니다."));
+        App app =
+                appRepository.findById(appId)
+                        .orElseThrow(()->new UserNotFoundException(ErrorCode.ENTITY_NOT_FOUND, "해당 앱은 존재 하지 않습니다."));
         // review 저장
-        Review review = new Review();
-        review.newReview(appId, reviewRequest.getUserId(), reviewRequest.getRate(), reviewRequest.getReview());
+        Review review = new Review(app, user, reviewRequest.getRate(), reviewRequest.getReview());
+
         Review savedReview = reviewRepository.save(review);
         // 레디스 저장
         reviewRedisService.saveAppReview(savedReview);
         return savedReview;
+    }
 
     public String getAverageByAppId(Long appId){
         double average = reviewRepository.getAverageByAppId(appId);

@@ -36,6 +36,7 @@ public class App {
     private String appAndroidLink;
     @Column(name = "admin_status")
     private String adminStatus;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

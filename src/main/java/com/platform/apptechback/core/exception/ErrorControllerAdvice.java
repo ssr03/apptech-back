@@ -1,5 +1,6 @@
 package com.platform.apptechback.core.exception;
 
+import com.platform.apptechback.domain.common.exception.DataInvalidException;
 import com.platform.apptechback.domain.common.exception.NotFoundException;
 import com.platform.apptechback.domain.user.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,14 @@ public class ErrorControllerAdvice {
     @ExceptionHandler(NotFoundException.class)
     protected ResponseEntity<ExceptionResponse> handleNotFoundException(NotFoundException e) {
         final ErrorData error = ErrorData.of(ErrorCode.ENTITY_NOT_FOUND.name(), e.getMessage());
+        final ExceptionResponse response = ExceptionResponse.of(HttpStatus.OK, error);
+
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+    @ExceptionHandler(DataInvalidException.class)
+    protected ResponseEntity<ExceptionResponse> handleDataInvalidException(DataInvalidException e) {
+        final ErrorData error = ErrorData.of(ErrorCode.INVALID_DATA.name(), e.getMessage());
         final ExceptionResponse response = ExceptionResponse.of(HttpStatus.OK, error);
 
         return new ResponseEntity<>(response,HttpStatus.OK);

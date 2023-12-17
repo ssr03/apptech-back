@@ -34,9 +34,10 @@ public class ReviewController {
     }
 
     @PostMapping("/{appId}/rate")
-    public ResponseEntity<Review> saveAppReview(@PathVariable Long appId, @RequestBody ReviewRequest reviewRequest){
+    public ResponseEntity<Review> saveAppReview(@PathVariable Long appId, @RequestBody ReviewRequest reviewRequest) {
         Review result = reviewService.saveAppReview(appId, reviewRequest);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
     @GetMapping("/getAverageByAppId")
     public String getAverageByAppId(@RequestParam Long appId){

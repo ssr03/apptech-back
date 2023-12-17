@@ -5,6 +5,7 @@ import com.platform.apptechback.core.util.FileUtil;
 import com.platform.apptechback.domain.app.entity.App;
 import com.platform.apptechback.domain.app.repository.AppRepository;
 import com.platform.apptechback.domain.common.dto.FileDto;
+import com.platform.apptechback.domain.common.exception.DataInvalidException;
 import com.platform.apptechback.domain.common.exception.NotFoundException;
 import com.platform.apptechback.domain.ranking.dto.UserProfitRequest;
 import com.platform.apptechback.domain.ranking.entity.UserProfit;
@@ -42,6 +43,9 @@ public class UserProfitService {
     @Transactional
     public ResponseEntity<UserProfit> addUserProfit(UserProfitRequest userProfitRequest){
         // 파일 저장
+        if(userProfitRequest.getProfitImageFile().isEmpty()){
+            throw new DataInvalidException("파일은 필수 정보입니다.");
+        }
         FileDto file = fileUtil.uploadFile(userProfitRequest.getProfitImageFile());
 
         User user =

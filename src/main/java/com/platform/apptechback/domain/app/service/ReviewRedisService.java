@@ -15,7 +15,6 @@ public class ReviewRedisService {
 
     public Mono<Long> getAppReview(Long appId) {
         ReactiveHashOperations<String, Object, Object> hashOperations = redisOperations.opsForHash();
-        System.out.println("조회");
         return hashOperations.get(REVIEW_KEY, appId).switchIfEmpty(Mono.defer(() -> {
             System.out.println("Cache Miss");
             // TODO: redis에 데이터 없는 케이스 처리
@@ -27,11 +26,11 @@ public class ReviewRedisService {
 
     public void saveAppReview(Review review){
         ReactiveHashOperations<String, Object, Object> hashOperations = redisOperations.opsForHash();
-        hashOperations.putIfAbsent(REVIEW_KEY, review.getAppId(), review.getRate())
+        hashOperations.putIfAbsent(REVIEW_KEY, review.getApp().getId(), review.getRate())
                 .filter(result -> !result)
                 .flatMap(result ->
-                        getAppReview(review.getAppId()).map(savedRate -> savedRate + review.getRate())
-                                .flatMap(rate -> hashOperations.put(REVIEW_KEY, review.getAppId(), rate))
+                        getAppReview(review.getApp().getId()).map(savedRate -> savedRate + review.getRate())
+                                .flatMap(rate -> hashOperations.put(REVIEW_KEY, review.getApp().getId(), rate))
                 ).subscribe();
     }
 }

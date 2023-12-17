@@ -1,13 +1,12 @@
 package com.platform.apptechback.domain.user.dto;
 
-import lombok.AllArgsConstructor;
+import com.platform.apptechback.domain.user.entity.User;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 
 @Getter
-@RequiredArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor
 public class UserResponse {
     private Long id;
 
@@ -15,4 +14,14 @@ public class UserResponse {
     private String nickname;
     private String email;
     private Boolean adminYn;
+
+    public UserResponse getUserResponse(User user){
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.nickname = user.getNickname();
+        this.email = user.getEmail();
+        this.adminYn = user.getAdminYn();
+        return this;
+    }
 }
+
