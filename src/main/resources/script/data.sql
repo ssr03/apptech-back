@@ -51,6 +51,9 @@ CREATE TABLE public.apptech_profit_favorite (
 INSERT INTO public.apptech_profit_favorite
 (id, app_profit_id, user_id, created_at)
 VALUES(0, 1, 0, now());
+INSERT INTO public.apptech_profit_favorite
+(id, app_profit_id, user_id, created_at)
+VALUES(1, 21, 0, now());
 
 
 -- public.apptech_profit_quiz_favorite foreign keys

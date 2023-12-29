@@ -35,4 +35,9 @@ public class ProfitFavorite {
         this.profit = profit;
         this.user = user;
     }
+
+    public void newProfitFavorite(Profit profit, User user){
+        this.profit = profit;
+        this.user = user;
+    }
 }
