@@ -43,7 +43,7 @@ public class Review implements Serializable {
     private LocalDateTime updatedAt;
 
     public ReviewResponse getReviewResponse(){
-        return new ReviewResponse(id, app, user, rate, review);
+        return new ReviewResponse(id, user.getId(), user.getNickname(), app.getId(), rate, review);
     }
 
     public Review(App app, User user, Long rate, String review){

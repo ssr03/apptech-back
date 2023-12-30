@@ -28,8 +28,8 @@ public class ReviewController {
     }
 
     @GetMapping("/{appId}/rate")
-    public ResponseEntity<Mono<Long>> getAppReview(@PathVariable Long appId){
-        Mono<Long> appReviewRate = reviewService.getAppReview(appId);
+    public ResponseEntity<Mono<String>> getAppReviewRateByAppId(@PathVariable Long appId){
+        Mono<String> appReviewRate = reviewService.getAppReviewRateByAppId(appId);
         return new ResponseEntity<>(appReviewRate, HttpStatus.OK);
     }
 
@@ -39,19 +39,9 @@ public class ReviewController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/getAverageByAppId")
-    public String getAverageByAppId(@RequestParam Long appId){
-        return reviewService.getAverageByAppId(appId);
-    }
-
     @GetMapping("/getRateByAppIdAndUserId")
     public Long getRateByAppIdAndUserId(@RequestParam Long appId, @RequestParam Long userId){
         return reviewService.getRateByAppIdAndUserId(appId, userId);
-    }
-
-    @PostMapping(value ="/addReview")
-    public ResponseEntity<Review> addReview(@RequestBody ReviewRequest reviewRequest) {
-        return reviewService.addReview(reviewRequest);
     }
 
     @GetMapping("/getReviewList")
