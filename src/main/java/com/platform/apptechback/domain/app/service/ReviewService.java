@@ -33,8 +33,9 @@ public class ReviewService {
        List<Review> reviewList = reviewRepository.findTop2ByAppIdAndUseYnIsTrue(appId);
        List<ReviewResponse> reviewResponseList = reviewList.stream()
                .map(m -> new ReviewResponse(m.getId(),
-                       m.getApp(),
-                       m.getUser(),
+                       m.getUser().getId(),
+                       m.getUser().getNickname(),
+                       m.getApp().getId(),
                        m.getRate(),
                        m.getReview()))
                .collect(Collectors.toList());
@@ -42,8 +43,8 @@ public class ReviewService {
        return new ResponseEntity<>(reviewResponseList, HttpStatus.OK);
     }
 
-    public Mono<Long> getAppReview(Long appId) {
-        return reviewRedisService.getAppReview(appId);
+    public Mono<String> getAppReviewRateByAppId(Long appId) {
+        return reviewRedisService.getAppReviewRateByAppId(appId);
     }
 
     @Transactional
@@ -53,36 +54,6 @@ public class ReviewService {
                         .orElseThrow(()->new UserNotFoundException(ErrorCode.ENTITY_NOT_FOUND, "해당 사용자는 존재 하지 않습니다."));
         App app =
                 appRepository.findById(appId)
-                        .orElseThrow(()->new UserNotFoundException(ErrorCode.ENTITY_NOT_FOUND, "해당 앱은 존재 하지 않습니다."));
-        // review 저장
-        Review review = new Review(app, user, reviewRequest.getRate(), reviewRequest.getReview());
-
-        Review savedReview = reviewRepository.save(review);
-        // 레디스 저장
-        reviewRedisService.saveAppReview(savedReview);
-        return savedReview;
-    }
-
-    public String getAverageByAppId(Long appId){
-        double average = reviewRepository.getAverageByAppId(appId);
-        String averageStr = String.format("%.1f", average);
-        return averageStr;
-    }
-
-    public Long getRateByAppIdAndUserId(Long appId, Long userId){
-        Optional<Review> review = reviewRepository.findByAppIdAndUserIdAndUseYnIsTrue(appId, userId);
-        Long rate = 0L;
-        if(review.isPresent()){
-            rate = review.get().getRate();
-        }
-        return rate;
-    }
-    public ResponseEntity<Review> addReview(ReviewRequest reviewRequest){
-        User user =
-                userRepository.findById(reviewRequest.getUserId())
-                        .orElseThrow(()->new UserNotFoundException(ErrorCode.ENTITY_NOT_FOUND, "해당 사용자는 존재 하지 않습니다."));
-        App app =
-                appRepository.findById(reviewRequest.getAppId())
                         .orElseThrow(()->new UserNotFoundException(ErrorCode.ENTITY_NOT_FOUND, "해당 앱은 존재 하지 않습니다."));
 
         //기존 true -> false update
@@ -102,15 +73,27 @@ public class ReviewService {
         newReview.setUseYn(true);
         Review savedReview = reviewRepository.save(newReview);
 
-        return new ResponseEntity<>(savedReview, HttpStatus.OK);
+        // 레디스 갱신(데이터베이스에 저장된 데이터가 수정될때마다 Redis도 갱신 - Write Around 패턴)
+        reviewRedisService.saveAppReview(savedReview);
+        return savedReview;
+    }
+
+    public Long getRateByAppIdAndUserId(Long appId, Long userId){
+        Optional<Review> review = reviewRepository.findByAppIdAndUserIdAndUseYnIsTrue(appId, userId);
+        Long rate = 0L;
+        if(review.isPresent()){
+            rate = review.get().getRate();
+        }
+        return rate;
     }
 
     public ResponseEntity<List<ReviewResponse>> getReviewList(Long appId) {
         List<Review> reviewList = reviewRepository.findByAppIdAndUseYnIsTrue(appId);
         List<ReviewResponse> reviewResponseList = reviewList.stream()
                 .map(m -> new ReviewResponse(m.getId(),
-                        m.getApp(),
-                        m.getUser(),
+                        m.getUser().getId(),
+                        m.getUser().getNickname(),
+                        m.getApp().getId(),
                         m.getRate(),
                         m.getReview()))
                 .collect(Collectors.toList());

@@ -12,8 +12,9 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 public class ReviewResponse {
     private Long id;
-    private App app;
-    private User user;
+    private Long userId;
+    private String nickname;
+    private Long appId;
     private Long rate;
     private String review;
 }
