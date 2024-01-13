@@ -24,14 +24,15 @@ public class Rank {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "app_id", referencedColumnName = "id")
     private App app;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private RankType type;
 

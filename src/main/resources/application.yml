@@ -56,8 +56,16 @@ logging:
   level:
     root: info
     org:
+      hibernate:
+        SQL: debug
+        orm:
+          jdbc:
+            bind: trace
+        type:
+          descriptor:
+            sql: trace
       springframework:
-        r2dbc: debug
+        web: debug
 
 springdoc:
   version: v1
