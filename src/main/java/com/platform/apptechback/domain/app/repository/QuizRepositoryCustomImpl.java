@@ -12,7 +12,7 @@ public class QuizRepositoryCustomImpl implements QuizRepositoryCustom {
     EntityManager entityManager;
 
     @Override
-    public List<Object[]> getQuizList(Long profitId, String date) {
+    public List<Object[]> getQuizList(String orderBy, Long profitId, String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
         LocalDateTime startDateTime = LocalDateTime.parse(date + "000000000", formatter);
         LocalDateTime endDateTime = LocalDateTime.parse(date + "235959999", formatter);
@@ -23,7 +23,10 @@ public class QuizRepositoryCustomImpl implements QuizRepositoryCustom {
                 " quiz, " +
                 " answer, " +
                 " coalesce(yes_cnt, 0) as yesCnt, " +
-                " coalesce(no_cnt, 0) as noCnt\n" +
+                " coalesce(no_cnt, 0) as noCnt, " +
+                " apq.created_at ," +
+                "case when coalesce(yes_cnt, 0)+coalesce(no_cnt, 0) = 0 then 0 \n" +
+                " else cast(coalesce(yes_cnt, 0) as decimal) /cast(coalesce(yes_cnt, 0)+coalesce(no_cnt, 0)  as decimal) end as ration \n" +
                 "from apptech_profit_quiz apq\n" +
                 "left join\n" +
                 "\t(select app_profit_quiz_id, \n" +
@@ -38,7 +41,14 @@ public class QuizRepositoryCustomImpl implements QuizRepositoryCustom {
                 "on apq.user_id = au.id \n" +
                 "where apq.app_profit_id = :profitId \n" +
                 "and apq.quiz_date between :startDateTime \n" +
-                "\t\t\tand :endDateTime";
+                "\t\t\tand :endDateTime \n";
+
+        if(orderBy == "CreatedAt"){
+            sql += "order by created_at";
+        }else{ //디폴트는 정확도로 정렬
+            sql += "order by ration desc";
+        }
+
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("startDateTime", startDateTime);
         query.setParameter("endDateTime", endDateTime);

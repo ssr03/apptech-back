@@ -20,9 +20,9 @@ import java.util.List;
 public class QuizService {
     private final UserRepository userRepository;
     private final QuizRepository quizRepository;
-    public ResponseEntity<List<QuizResponse>> getQuizList(Long profitId, String date){
+    public ResponseEntity<List<QuizResponse>> getQuizList(String orderBy, Long profitId, String date){
 
-        List<Object[]> results = quizRepository.getQuizList(profitId, date);
+        List<Object[]> results = quizRepository.getQuizList(orderBy, profitId, date);
         List<QuizResponse> quizList = new ArrayList<QuizResponse>() ;
 
         for(Object[] result: results){
