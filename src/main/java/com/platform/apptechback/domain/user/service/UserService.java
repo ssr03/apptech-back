@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -34,5 +36,15 @@ public class UserService {
         User savedUser = userRepository.save(user);
 
         return new ResponseEntity<>(savedUser, HttpStatus.OK);
+    }
+
+    public boolean getUserYn(String username, String password){
+        Optional<User> UserOptional = userRepository.findByUsernameAndPassword(username, password);
+
+        if(UserOptional.isPresent()){
+            return true;
+        }else {
+            return false;
+        }
     }
 }

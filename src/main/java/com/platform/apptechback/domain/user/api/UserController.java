@@ -23,4 +23,9 @@ public class UserController {
      public ResponseEntity<User> addUser(@RequestBody UserRequest userRequest){
          return userService.addUser(userRequest);
     }
+
+    @GetMapping("/getUserYn")
+    public boolean getUserYn(@RequestParam String username, @RequestParam String password){
+        return userService.getUserYn(username, password);
+    }
 }
