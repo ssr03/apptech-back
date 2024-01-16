@@ -17,8 +17,10 @@ public class QuizController {
     private final QuizService quizService;
 
     @GetMapping(value="/getQuizList")
-    public ResponseEntity<List<QuizResponse>> getQuizList(@RequestParam Long profitId, @RequestParam String date){
-        return quizService.getQuizList(profitId, date);
+    public ResponseEntity<List<QuizResponse>> getQuizList(@RequestParam String orderBy,
+                                                          @RequestParam Long profitId,
+                                                          @RequestParam String date){
+        return quizService.getQuizList(orderBy, profitId, date);
     }
 
     @PostMapping(value ="/")

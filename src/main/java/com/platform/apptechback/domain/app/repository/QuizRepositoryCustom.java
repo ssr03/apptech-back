@@ -8,6 +8,6 @@ import java.util.List;
 public interface QuizRepositoryCustom {
 
 
-    List<Object[]> getQuizList(Long profitId, String date);
+    List<Object[]> getQuizList(String orderBy, Long profitId, String date);
 
 }
